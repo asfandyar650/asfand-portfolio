@@ -1,5 +1,5 @@
 /* ==============================================
-   Asfad Yar Khan - Portfolio & CV JavaScript
+   Asfand Yar Khan - Portfolio & CV JavaScript
    ============================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -83,16 +83,62 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 6. Interactive Contact Form
+  // 6. Interactive Contact Form with Node.js Backend Integration
   const contactForm = document.getElementById("contactForm");
-  contactForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = document.getElementById("nameInput").value;
-    const msg = document.getElementById("msgInput").value;
+  const submitBtn = contactForm ? contactForm.querySelector("button[type='submit']") : null;
+  const originalBtnText = submitBtn ? submitBtn.innerHTML : "Send Message";
 
-    const whatsappUrl = "https://wa.me/923414463201?text=" + encodeURIComponent("Hi Asfad, my name is " + name + ". " + msg);
-    window.open(whatsappUrl, "_blank");
-    showToast("Redirecting to WhatsApp to send message...");
-    contactForm.reset();
-  });
+  if (contactForm) {
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("nameInput").value.trim();
+      const company = document.getElementById("companyInput") ? document.getElementById("companyInput").value.trim() : "";
+      const msg = document.getElementById("msgInput").value.trim();
+
+      if (!name || !msg) {
+        showToast("Please provide your name and message.");
+        return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+      }
+
+      // Automatically determine API endpoint (localhost:5001 for local dev, /api/contact for production/Vercel)
+      const backendUrl = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+        ? "http://localhost:5001/api/contact"
+        : "/api/contact";
+
+      try {
+        const response = await fetch(backendUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ name, company, message: msg })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          showToast("Thank you " + name + "! Your message was sent.");
+          contactForm.reset();
+        } else {
+          throw new Error(data.error || "Failed to submit message");
+        }
+      } catch (err) {
+        console.warn("Backend API unavailable, switching to WhatsApp fallback:", err);
+        const whatsappUrl = "https://wa.me/923414463201?text=" + encodeURIComponent("Hi Asfand, my name is " + name + (company ? " (" + company + ")" : "") + ". " + msg);
+        window.open(whatsappUrl, "_blank");
+        showToast("Redirecting to WhatsApp to send message...");
+        contactForm.reset();
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnText;
+        }
+      }
+    });
+  }
 });

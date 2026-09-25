@@ -1,0 +1,33 @@
+[
+  {
+    "id": "project-1",
+    "name": "Full-Stack E-Commerce Platform",
+    "badge": "Flagship Project",
+    "category": ["fullstack", "frontend"],
+    "description": "Enterprise-grade online store with dynamic product catalog, interactive cart, secure checkout, and merchant control panel.",
+    "features": [
+      "Clean, modern storefront layout optimized for mobile and desktop",
+      "Merchant dashboard with live sales analytics & product management",
+      "Fast customer checkout flow with dynamic price calculations",
+      "Reusable modular UI components ensuring 99+ Lighthouse performance"
+    ],
+    "tech": ["React.js", "Node.js", "Tailwind CSS", "REST APIs", "JavaScript"],
+    "github": "https://github.com/asfandyar650",
+    "demo": "https://asfad-portfolio.vercel.app"
+  },
+  {
+    "id": "project-2",
+    "name": "Matias Portfolio App",
+    "badge": "React App",
+    "category": ["frontend"],
+    "description": "High-performance portfolio web application featuring modern dark UI, interactive sections, and modular component architecture.",
+    "features": [
+      "Dynamic hero section with custom typography & animations",
+      "Modular components for services, skills, and projects",
+      "Fast Vite build and deployment pipeline"
+    ],
+    "tech": ["React", "Vite", "CSS3", "JavaScript"],
+    "github": "https://github.com/asfandyar650/matias",
+    "demo": "https://github.com/asfandyar650/matias"
+  }
+]
